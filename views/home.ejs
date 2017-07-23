@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Logangster</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="/css/style.css" rel="stylesheet" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-xs-9 p-0 content">
+
+        <div class="content--video embed-responsive embed-responsive-16by9 col-xs-12 text-center">
+          <div class="content--play-btn js-play-btn hide"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
+          <div id="player"></div>
+          <div class="content--toolbar hide">
+            <div class="col-sm-6 l--title text-left">
+              <p><span class="js-video-title">marcelc63</span> @ <span class="js-video-published-at">2017-07-22</span> (<span class="js-video-current">63</span> of <span class="js-video-total">69</span>)</p>
+            </div>
+
+            <div class="col-sm-6">
+            <ul>
+              <li class="js-fullscreen button--pointer">
+                <span class="glyphicon glyphicon-resize-full"></span> Full Screen
+              </li>
+              <li class="js-sound button--pointer">
+                <span class="glyphicon glyphicon-volume-down"></span> Toggle Sound
+              </li>
+              <li class="js-play-btn button--pointer">
+                <i class="fa fa-refresh" aria-hidden="true"></i> Sync Video
+              </li>
+            </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-xs-3 p-0 chat">
+        <div class="col-sm-12 chat--header chat--nav">
+          <div class="col-sm-3 p-0">
+            <p>Chat</p>
+          </div>
+          <div class="col-sm-9 p-0 text-right">
+            <p><span class="js-count">0</span> Logangsters Online</p>
+          </div>
+        </div>
+
+        <div class="col-sm-12 p-0 chat--messages">
+          <ul class="js-messages">
+            <li>What's Poppin!?</li>
+          </ul>
+        </div>
+
+        <div class="col-sm-12 chat--write chat--nav">
+
+          <div class="v-hide chat--emoji js-emoji-panel hide">
+              <% include emoji.ejs %>
+          </div>
+
+          <div class="v-hide v-loggedIn hide">
+            <form class="container p-0 col-sm-12 js-chat" action="">
+              <span class="col-sm-1 chat--emoji-btn js-emoji-btn button--pointer" data-toggle="tooltip" title="Emojis Here!"><i class="fa fa-smile-o" aria-hidden="true"></i></span>
+              <input class="col-sm-9 js-m" placeholder="Type a message here..." autocomplete="off" />
+              <button class="col-sm-2 p-0"><span class="glyphicon glyphicon-send"></span></button>
+            </form>
+            <p><span class="js-logout button--pointer">Logout</span></p>
+          </div>
+
+          <div class="v-hide v-loggedOut l--view">
+            <p><span class="js-btn-login button--pointer bold">Login</span> or <span class="js-btn-register button--pointer bold">Register</span></p>
+          </div>
+
+          <div class="v-hide l--form l--view hide">
+            <form class='js-login' action="">
+              <input class="col-sm-6 js-username" placeholder="Username" type="text" autocomplete="off" />
+              <input class="col-sm-6 js-password" placeholder="Password" type="password" autocomplete="off" />
+              <button class="l--submit">Login</button>
+            </form>
+            <p>or <span class="js-btn-register button--pointer bold">Register</span> instead</p>
+          </div>
+
+          <div class="v-hide l--form l--view hide">
+            <form class='js-register' action="">
+              <input class="col-sm-6 js-username" placeholder="Username" type="text" autocomplete="off" />
+              <input class="col-sm-6 js-password" placeholder="Password" type="password" autocomplete="off" />
+              <button class="l--submit">Register</button>
+            </form>
+            <p>or <span class="js-btn-login button--pointer bold">Login</span> instead</p>
+          </div>
+
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/function.js"></script>
+  <script src="/js/youtube.js"></script>
+  <script src="/js/socket.js"></script>
+  <script src="/js/jquery.js"></script>
+
+</body>
+</html>
