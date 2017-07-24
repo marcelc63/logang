@@ -40,7 +40,7 @@ $(function () {
 	  if(emoji.some(x=>x==='thasssmuhboiii')){
 	    $("[data-emoji='thasssmuhboiii']").addClass('emoji--click').prop('title', 'Send 10 Chats!');
 	  }
-		emojiInitiate();		
+		emojiInitiate();
 	}
 
 	//Functions
