@@ -6,7 +6,8 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 let store = {
 	videoStore: [],
 	videoTotalDuration: '',
-	currentVideoIndex: ''
+	currentVideoIndex: '',
+	playbackStatus: 0
 }
 let player
 
@@ -34,7 +35,12 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-	syncVideo(store)
+	if(store.playbackStatus === 'dataReady'){
+		syncVideo(store)
+	}
+	else{
+		store.playbackStatus = 'playerReady'
+	}
 }
 
 function loadVideo(packet){
@@ -100,7 +106,15 @@ function startYouTube(packet,option=undefined){
 	if(option === undefined || option === 'premiere'){
 		loadVideo(payload)
 	}
-	if(option === undefined || option === 'initiate'){
+	if(option === 'initiate'){		
+		if(store.playbackStatus === 'playerReady'){
+			loadVideo(payload)
+		}
+		else{
+			store.playbackStatus = 'dataReady'
+		}
+	}
+	if(option !== 'premiere'){
 		store.currentVideoIndex = packet.currentVideoIndex+1
 	}
 	store.videoStore = packet.videoStore
