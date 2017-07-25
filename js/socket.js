@@ -34,6 +34,9 @@ $(function () {
 	  if(emoji.some(x=>x==='logang')){
 	    $("[data-emoji='logang']").addClass('emoji--click').prop('title', 'From Registering');
 	  }
+		if(emoji.some(x=>x==='logan')){
+	    $("[data-emoji='logan']").addClass('emoji--click').prop('title', 'From Registering');
+	  }
 	  if(emoji.some(x=>x==='ugudbro')){
 	    $("[data-emoji='ugudbro']").addClass('emoji--click').prop('title', 'From Registering');
 	  }

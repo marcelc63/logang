@@ -19,7 +19,7 @@ module.exports = function (http){
 
   //Schedule
   //* 17-20 * * *
-  var j = schedule.scheduleJob('*/5 15-16 * * *', ()=>{
+  var j = schedule.scheduleJob('*/5 18-23 * * *', ()=>{
     video.initiate((x)=>{
       let video = x.data.videoStore
       let videoNow = videoStore.videoStore
@@ -39,7 +39,7 @@ module.exports = function (http){
       token: '',
       identifier: '',
       isLoggedIn: false,
-      emoji: ['logang','ugudbro']
+      emoji: ['logang','ugudbro','logan']
     }
 
     //Define
