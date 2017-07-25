@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+.emoji--chat{
+  height: 18px;
+}
+.emoji--thumb{
+  height: 18px;
+  filter: brightness(0%);
+}
+.emoji--thumb.emoji--click{
+  filter: brightness(100%);
+  cursor: pointer;
+}

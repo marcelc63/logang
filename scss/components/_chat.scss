@@ -1,0 +1,104 @@
+@charset "utf-8";
+
+.chat{
+  display: flex;
+  flex-flow: column;
+  height:100vh;
+}
+
+.chat--messages{
+  flex: 1;
+  z-index: 1;
+}
+.chat--messages ul{
+  height: 100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.chat--messages li{
+  padding: 5px 15px;
+  font-size: 12px;
+  &:nth-child(odd){
+  }
+}
+.chat--messages li.l--notification{
+  margin-bottom: 5px;
+}
+.chat--messages li.l--notification span{
+  background: #e1e1e1;
+  padding: 5px;
+  border-radius: 2px;
+}
+.chat--messages li.l--register div{
+  background: #e1e1e1;
+  padding: 5px;
+  border-radius: 2px;
+  margin-bottom: 5px;
+}
+.chat--mesages li.l--mention{
+  background: #FFF3B8;
+}
+
+.chat--nav{
+  background: $white;
+  font-size: 12px;
+  z-index: 2;
+}
+.chat--nav p{
+  font-size: 12px;
+  padding: 10px 0px;
+  color: #777;
+}
+.chat--nav form{
+}
+.chat--nav input{
+  padding: 0px;
+}
+.chat--nav button{
+  background: $white;
+  color: $basic;
+  border: none;
+  padding: 10px;
+}
+.chat--nav .l--form{
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+.chat--nav .l--form input{
+  padding: 10px 0px 5px 0px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid $border;
+}
+.chat--nav .l--form .l--submit{
+  background: #dedede;
+  padding: 5px 0px;
+  width: 100%;
+  color: #666;
+  font-size: 12px;
+  border-radius: 2px;
+}
+
+.chat--write{
+  border-top: 1px solid $border;
+}
+.chat--write textarea{
+}
+.chat--header{
+  border-bottom: 1px solid $border;
+}
+
+.chat--emoji{
+  padding: 10px 0px;
+}
+.chat--emoji img{
+  float: left;
+  padding-right: 5px;
+}
+.chat--emoji-btn{
+  font-size: 16px;
+  padding: 10px 0px;
+  color: #666;
+}

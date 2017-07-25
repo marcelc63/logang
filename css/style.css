@@ -291,6 +291,14 @@ td {
   .content--toolbar li:first-child {
     padding-right: 15px; }
 
+.content--credit {
+  position: absolute;
+  bottom: 0;
+  color: #a1a1a1; }
+  .content--credit a {
+    color: #c1c1c1;
+    cursor: pointer; }
+
 .chat {
   display: flex;
   flex-flow: column;
@@ -325,6 +333,9 @@ td {
   padding: 5px;
   border-radius: 2px;
   margin-bottom: 5px; }
+
+.chat--mesages li.l--mention {
+  background: #FFF3B8; }
 
 .chat--nav {
   background: #fefefe;

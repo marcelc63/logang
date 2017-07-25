@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+.nav{
+  align-self: flex-end;
+  padding: 20px 40px;
+  ul{
+    @extend .flex;
+    flex-direction: row;
+    li{
+      color: $white;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+}

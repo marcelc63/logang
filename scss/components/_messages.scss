@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+.content{
+  @extend .flex;
+  justify-content: center;
+}
+.content--photo{
+  padding: 40px;
+}
+.content--photo img{
+  max-width: 700px;
+}
+
+.content--intro{
+  max-width: 700px;
+  padding: 60px 100px;
+}
+.content--intro .l--head{
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.content--intro .l--content{
+  font-size: 15px;
+  color: #777;
+}

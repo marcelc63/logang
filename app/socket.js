@@ -5,6 +5,7 @@ var schedule = require('node-schedule');
 
 //Video
 let videoStore = ''
+let emojiStore = []
 let video = require('../app/video.js');
 video.initiate((x)=>{
   videoStore = x.data
@@ -13,6 +14,9 @@ video.initiate((x)=>{
 
 //Define
 var countConnect = 0;
+query.emoji('',(x)=>{
+  emojiStore = x.data.emoji
+},'update')
 
 module.exports = function (http){
   var io = require('socket.io')(http);
@@ -58,8 +62,10 @@ module.exports = function (http){
 
         io.to(socket.id).emit('authenticate', {
           isLoggedIn:store.isLoggedIn,
-          token:x.data.token,
-          emoji:store.emoji
+          token:store.token,
+          emoji:store.emoji,
+          emojiStore: emojiStore,
+          username: store.username
         })
 
         if(payload !== undefined && payload.purpose === 'msg'){
@@ -76,7 +82,10 @@ module.exports = function (http){
     //Connection
     socket.on('connected', function(packet){
       io.emit('countConnect', countConnect);
-      io.to(socket.id).emit('initiate',videoStore);
+      let initiatePacket = {
+        videoStore: videoStore
+      }
+      io.to(socket.id).emit('initiate',initiatePacket);
     });
 
     socket.on('disconnect', function(packet){

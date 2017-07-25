@@ -103,8 +103,14 @@ function startYouTube(packet,option=undefined){
 		totalVideo: packet.videoStore.length
 	}
 
-	if(option === undefined || option === 'premiere'){
+
+	if(option === undefined){
 		loadVideo(payload)
+	}
+	if(option === 'premiere'){
+		if(packet.videoStore.length > store.videoStore.length){
+			loadVideo(payload)
+		}
 	}
 	if(option === 'initiate'){
 		if(store.playbackStatus === 'playerReady'){
@@ -114,6 +120,7 @@ function startYouTube(packet,option=undefined){
 			store.playbackStatus = 'dataReady'
 		}
 	}
+	
 	if(option !== 'premiere'){
 		store.currentVideoIndex = packet.currentVideoIndex+1
 	}

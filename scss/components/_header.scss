@@ -1,0 +1,12 @@
+@charset "utf-8";
+
+.header{
+  background: url(../images/header-home.jpg);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-clip: border-box;
+  background-attachment: scroll;
+  background-size: cover;
+  height: 443px;
+  @extend .flex;  
+}

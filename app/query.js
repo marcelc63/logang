@@ -32,10 +32,18 @@ const mysqlQuery = (sql,callback) => {
   });
 }
 
-const emojiConstruct = (payload) => {
+const emojiConstruct = (payload,option=undefined) => {
   let emoji = []
   for(i in payload){
-    emoji.push(payload[i].val)
+    if(option === 'user'){
+      emoji.push(payload[i].val)
+    }
+    if(option === 'store'){
+      emoji.push({
+        'val': payload[i].val,
+        'reason': payload[i].reason
+      })
+    }
   }
   return emoji
 }
@@ -73,7 +81,24 @@ const emoji = (payload,callback,option=undefined) => {
           username: payload.username,
           token: payload.token,
           identifier: payload.identifier,
-          emoji: emojiConstruct(x)
+          emoji: emojiConstruct(x,'user')
+        }
+      }
+      callbackCheck(callback,data)
+    })
+  }
+
+  if(option === 'update'){
+    mysqlQuery({
+      sql: 'SELECT * FROM `emoji_list` ORDER BY `key` ASC',
+      timeout: 40000, // 40s
+    }, (x)=>{
+      let data = {
+        meta: {
+          code: 200,
+        },
+        data: {
+          emoji: emojiConstruct(x,'store')
         }
       }
       callbackCheck(callback,data)
@@ -92,10 +117,12 @@ const register = (payload,callback) => {
     values: [payload.username]
   }, (x)=>{
     if(x.length === 0){
+      let timestring = Math.round(new Date().getTime()/1000)
+      let datestring = new Date().toISOString()
       mysqlQuery({
-        sql: 'INSERT INTO `user` (username,password,identifier)VALUE(?,?,?)',
+        sql: 'INSERT INTO `user` (username,password,identifier,datestring,timestring)VALUE(?,?,?,?,?)',
         timeout: 40000, // 40s
-        values: [payload.username,payload.password,payload.identifier]
+        values: [payload.username,payload.password,payload.identifier,datestring,timestring]
       }, (x)=>{
         if(x.affectedRows === 1){
           console.log(payload.username+' registered')
@@ -137,7 +164,6 @@ const authenticate = (payload,callback) => {
 }
 
 const login = (payload,callback) => {
-  //password = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
   payload.token = payload.username+new Date().getTime()
   payload.token = bcrypt.hashSync(payload.token, bcrypt.genSaltSync(8), null)
 
@@ -157,10 +183,11 @@ const login = (payload,callback) => {
     if(validate === true){
       payload.userid = x[0].id
       payload.identifier = x[0].identifier
+      let datestring = new Date().toISOString()
       mysqlQuery({
-        sql: 'UPDATE `user` SET `username`=?, `token`=? WHERE `id`=?',
+        sql: 'UPDATE `user` SET `username` = ?, `token` = ?, `lastactive` = ? WHERE `id`=?',
         timeout: 40000, // 40s
-        values: [payload.username,payload.token,payload.userid]
+        values: [payload.username,payload.token,datestring,payload.userid]
       }, (x)=>{
         if(x.affectedRows === 1){
           console.log(payload.username+' logged in')
@@ -177,5 +204,6 @@ const login = (payload,callback) => {
 module.exports = {
   login: login,
   authenticate: authenticate,
-  register: register
+  register: register,
+  emoji: emoji
 }

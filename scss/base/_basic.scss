@@ -1,0 +1,106 @@
+@charset "utf-8";
+
+body{
+  font-family: 'Open Sans', sans-serif;
+  color: #333;
+  background: #fefefe;
+  /*background: url(../images/cover-3.png) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;*/
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  font-size: 100%;
+}
+body {
+  padding: 0;
+  margin: 0;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1.5;
+  position: relative;
+  cursor: default;
+}
+a {
+  text-decoration: none;
+}
+li {
+  list-style: none;
+}
+img {
+  border-style: none;
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+div {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+video {
+  max-width: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+iframe {
+  border-style: none;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+input {
+  border-style: none;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+nav {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+textarea, input, select, button{
+  font-family: Open sans, sans-serif;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+
+  -webkit-appearance: none;
+  -moz-appearance:    none;
+  appearance:   none;
+  border: none;
+
+  -webkit-appearance: none;
+}
+textarea:focus, input:focus, select:focus, button:focus{
+  outline: 0;
+}
+/* Typography Resets */
+
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+p,
+blockquote,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  direction: ltr;
+}

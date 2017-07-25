@@ -2,7 +2,10 @@ $(function () {
 	let packet = {};
 	let store = {
 		isLoggedIn: false,
-		emoji: []
+		emoji: [],
+		user: {
+			username: ''
+		}
 	}
 
 	//Account state
@@ -30,19 +33,17 @@ $(function () {
 		)})
 	}
 
-	const emoji = (emoji) => {
-	  if(emoji.some(x=>x==='logang')){
-	    $("[data-emoji='logang']").addClass('emoji--click').prop('title', 'From Registering');
-	  }
-		if(emoji.some(x=>x==='logan')){
-	    $("[data-emoji='logan']").addClass('emoji--click').prop('title', 'From Registering');
-	  }
-	  if(emoji.some(x=>x==='ugudbro')){
-	    $("[data-emoji='ugudbro']").addClass('emoji--click').prop('title', 'From Registering');
-	  }
-	  if(emoji.some(x=>x==='thasssmuhboiii')){
-	    $("[data-emoji='thasssmuhboiii']").addClass('emoji--click').prop('title', 'Send 10 Chats!');
-	  }
+	const emoji = (emoji,emojiStore) => {
+		emojiStore.forEach((x) => {
+			let val = x.val
+			let reason = x.reason
+			let src = 'emoji/'+val+'.png'
+			let img = $('<img>').attr({'src':src,'data-toggle':'tooltip','data-emoji':val}).addClass('js-emoji emoji--thumb')
+			if(emoji.filter(x=>x===val).length === 1){
+				img.addClass('emoji--click').attr('title',reason)
+			}
+			$('.js-emoji-store').append(img)
+	  })
 		emojiInitiate();
 	}
 
@@ -86,7 +87,7 @@ $(function () {
 	});
 
 	socket.on('initiate', function(packet){
-		syncVideo(packet,'initiate')
+		syncVideo(packet.videoStore,'initiate')
 	})
 
 	socket.on('premiere', function(packet){
@@ -97,7 +98,9 @@ $(function () {
 		setCookie('token', packet.token)
 		store.isLoggedIn = packet.isLoggedIn
 		store.emoji = packet.emoji
-		emoji(store.emoji)
+		store.user.username = packet.username
+		console.log(packet.emojiStore)
+		emoji(store.emoji,packet.emojiStore)
 		accountState()
 		$('.js-m').focus();
 	});
@@ -128,6 +131,10 @@ $(function () {
 			}
 			let msg = $('<span>').addClass('l--msg').html(packet.msg)
 			li.append(usr).append(spr).append(msg)
+
+			if(packet.usr === store.user.username){
+				li.addClass('l--mention')
+			}
 		}
 
 		if(packet.ntf !== undefined){
