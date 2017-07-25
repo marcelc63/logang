@@ -7,7 +7,7 @@ let store = {
 	videoStore: [],
 	videoTotalDuration: '',
 	currentVideoIndex: '',
-	playbackStatus: 0
+	playbackStatus: ''
 }
 let player
 
@@ -106,7 +106,7 @@ function startYouTube(packet,option=undefined){
 	if(option === undefined || option === 'premiere'){
 		loadVideo(payload)
 	}
-	if(option === 'initiate'){		
+	if(option === 'initiate'){
 		if(store.playbackStatus === 'playerReady'){
 			loadVideo(payload)
 		}
@@ -128,16 +128,17 @@ function onPlayerStateChange(event) {
 			videoPublishedAt: store.videoStore[store.currentVideoIndex].videoPublishedAt,
 			startSeconds: 0,
 			videoTitle: store.videoStore[store.currentVideoIndex].videoTitle,
-			currentVideoIndex: store.videoStore[store.currentVideoIndex].currentVideoIndex+1,
+			currentVideoIndex: store.currentVideoIndex+1,
 			totalVideo: store.videoStore.length
 		}
 		loadVideo(payload)
-		if(store.currentVideoIndex+1 != store.length){
+		if(store.currentVideoIndex+1 != store.videoStore.length){
 			store.currentVideoIndex++
 		}
 		else{
 			store.currentVideoIndex = 0
 		}
+		//syncVideo(store)
 	}
 	if(event.data === 1){
 		$('.content--play-btn').addClass('hide')
