@@ -7,11 +7,7 @@ let store = {
 	videoStore: [],
 	videoTotalDuration: '',
 	currentVideoIndex: '',
-<<<<<<< HEAD
 	playbackStatus: ''
-=======
-	playbackStatus: 0
->>>>>>> 2fd4ef1af5cfb11d9bca2fb51df6e4ef3e7a23dc
 }
 let player
 
