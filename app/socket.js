@@ -14,7 +14,7 @@ let premiereStore = {
 let video = require('../app/video.js');
 video.initiate((x)=>{
   videoStore = x.data
-  videoStore.videoStore.splice(-1,1)
+  //videoStore.videoStore.splice(-1,1)
   console.log(videoStore.videoStore.length)
   console.log('initiated')
 })
