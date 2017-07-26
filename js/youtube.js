@@ -9,6 +9,10 @@ let store = {
 	currentVideoIndex: '',
 	playbackStatus: ''
 }
+let premiereStore = {
+	premiereStart: '',
+	premiereState: 'offline'
+}
 let player
 
 function onYouTubeIframeAPIReady() {
@@ -35,8 +39,15 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
+	if(premiereStore.premiereState === 'online'){
+		option = 'premiere'
+	}
+	else{
+		option = undefined
+	}
+
 	if(store.playbackStatus === 'dataReady'){
-		syncVideo(store)
+		syncVideo(store,option)
 	}
 	else{
 		store.playbackStatus = 'playerReady'
@@ -64,6 +75,11 @@ function loadVideo(packet){
 	$('.js-video-published-at').text(videoPublishedAt)
 }
 
+function premiereVideo(data){
+	premiereStore.premiereStart = data
+	premiereStore.premiereState = 'online'
+}
+
 function syncVideo(data,option=undefined){
 	let storeData = data
 	let currentDuration = currentTime(storeData.videoTotalDuration)
@@ -74,11 +90,7 @@ function syncVideo(data,option=undefined){
 		else{
 			currentDuration -= x.videoSeconds
 		}
-	}); // 130
-
-	//console.log(currentVideoIndex)
-	//console.log(storeData.videoStore[currentVideoIndex])
-	//console.log(currentDuration)
+	})
 
 	let temporaryStore = {
 		video: storeData.videoStore[currentVideoIndex],
@@ -86,6 +98,15 @@ function syncVideo(data,option=undefined){
 		currentDuration: currentDuration,
 		currentVideoIndex: currentVideoIndex,
 		videoTotalDuration: storeData.videoTotalDuration
+	}
+
+	if(premiereStore.premiereState === 'online'){
+		option = 'premiere'
+	}
+
+	if(option === 'premiere' || option === 'initiatePremiere'){
+		temporaryStore.video = storeData.videoStore[storeData.videoStore.length-1]
+		temporaryStore.currentDuration = (Date.now()/1000)-premiereStore.premiereStart
 	}
 
 	startYouTube(temporaryStore,option)
@@ -108,11 +129,9 @@ function startYouTube(packet,option=undefined){
 		loadVideo(payload)
 	}
 	if(option === 'premiere'){
-		if(packet.videoStore.length > store.videoStore.length){
-			loadVideo(payload)
-		}
+		loadVideo(payload)
 	}
-	if(option === 'initiate'){
+	if(option === 'initiate' || option === 'initiatePremiere'){
 		if(store.playbackStatus === 'playerReady'){
 			loadVideo(payload)
 		}
@@ -120,7 +139,7 @@ function startYouTube(packet,option=undefined){
 			store.playbackStatus = 'dataReady'
 		}
 	}
-	
+
 	if(option !== 'premiere'){
 		store.currentVideoIndex = packet.currentVideoIndex+1
 	}
@@ -130,29 +149,34 @@ function startYouTube(packet,option=undefined){
 
 function onPlayerStateChange(event) {
 	if(event.data === 0){
+		/*
 		let payload = {
-			videoId: store.videoStore[store.currentVideoIndex].videoId,
-			videoPublishedAt: store.videoStore[store.currentVideoIndex].videoPublishedAt,
-			startSeconds: 0,
-			videoTitle: store.videoStore[store.currentVideoIndex].videoTitle,
-			currentVideoIndex: store.currentVideoIndex+1,
-			totalVideo: store.videoStore.length
-		}
-		loadVideo(payload)
-		if(store.currentVideoIndex+1 != store.videoStore.length){
-			store.currentVideoIndex++
-		}
-		else{
-			store.currentVideoIndex = 0
-		}
-		//syncVideo(store)
+		videoId: store.videoStore[store.currentVideoIndex].videoId,
+		videoPublishedAt: store.videoStore[store.currentVideoIndex].videoPublishedAt,
+		startSeconds: 0,
+		videoTitle: store.videoStore[store.currentVideoIndex].videoTitle,
+		currentVideoIndex: store.currentVideoIndex+1,
+		totalVideo: store.videoStore.length
 	}
-	if(event.data === 1){
-		$('.content--play-btn').addClass('hide')
-	}
-	if(event.data === 2){
-		$('.content--play-btn').removeClass('hide')
-	}
+	//loadVideo(payload)
+	if(store.currentVideoIndex+1 != store.videoStore.length){
+	store.currentVideoIndex++
+}
+else{
+store.currentVideoIndex = 0
+}
+*/
+if(premiereStore.premiereState === 'online'){
+	premiereStore.premiereState = 'offline'
+}
+syncVideo(store)
+}
+if(event.data === 1){
+	$('.content--play-btn').addClass('hide')
+}
+if(event.data === 2){
+	$('.content--play-btn').removeClass('hide')
+}
 }
 
 function stopVideo() {

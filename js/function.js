@@ -1,7 +1,6 @@
 function currentTime(totalDuration){
 	let startTime = 1499703318
-	let currentTime = Math.round(new Date().getTime()/1000)
-	//let totalDuration = totalDuration
+	let currentTime = Math.round(new Date().getTime()/1000)	
 	let difference = currentTime - startTime
 	let ratio = difference/totalDuration
 	let ratioFloor = Math.floor(ratio)

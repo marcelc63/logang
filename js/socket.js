@@ -3,6 +3,7 @@ $(function () {
 	let store = {
 		isLoggedIn: false,
 		emoji: [],
+		streamState: 'streaming',
 		user: {
 			username: ''
 		}
@@ -91,7 +92,9 @@ $(function () {
 	})
 
 	socket.on('premiere', function(packet){
-		syncVideo(packet,'premiere')
+		premiereVideo(packet.premiereStart)
+		console.log(packet.videoStore)
+		syncVideo(packet.videoStore,packet.option)
 	})
 
 	socket.on('authenticate', function(packet){

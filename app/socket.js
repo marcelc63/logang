@@ -6,9 +6,16 @@ var schedule = require('node-schedule');
 //Video
 let videoStore = ''
 let emojiStore = []
+let streamState = 'streaming'
+let premiereStore = {
+  premiereDuration: '',
+  premiereStart: ''
+}
 let video = require('../app/video.js');
 video.initiate((x)=>{
   videoStore = x.data
+  videoStore.videoStore.splice(-1,1)
+  console.log(videoStore.videoStore.length)
   console.log('initiated')
 })
 
@@ -22,18 +29,46 @@ module.exports = function (http){
   var io = require('socket.io')(http);
 
   //Schedule
+  function premiereEnd(premiereDuration){
+    let endTime = premiereDuration*1000
+    console.log(endTime)
+    setTimeout(()=>{
+      streamState = 'streaming'
+      console.log('premiere ends')
+    }, endTime);
+  }
   //* 17-20 * * *
-  var j = schedule.scheduleJob('*/5 18-23 * * *', ()=>{
-    video.initiate((x)=>{
-      let video = x.data.videoStore
-      let videoNow = videoStore.videoStore
-      if(video[video.length-1].videoId !== videoNow[videoNow.length-1].videoId){
+  //*/5 18-23 * * *
+  function schedulePremiere(){
+    console.log('premiere scheduled')
+    var j = schedule.scheduleJob('*/5 18-23 * * *', ()=>{
+      video.initiate((x)=>{
         console.log('cron')
-        videoStore = x.data
-        io.sockets.emit('premiere', videoStore)
-      }
-    },'premiere')
-  });
+        let video = x.data.videoStore
+        let videoNow = videoStore.videoStore
+        if(video[video.length-1].videoId !== videoNow[videoNow.length-1].videoId){
+          console.log('premiere')
+          videoStore = x.data
+          streamState = 'premiere'
+          premiereStore.premiereDuration = video[video.length-1].videoSeconds
+          premiereStore.premiereStart = Math.round(new Date().getTime()/1000)
+          premiereEnd(premiereStore.premiereDuration)
+          let premierePacket = {
+            videoStore: videoStore,
+            premiereStart: premiereStore.premiereStart,
+            option: 'premiere'
+          }
+          io.sockets.emit('premiere',premierePacket);
+          j.cancel()
+        }
+      },'premiere')
+    })
+  }
+  schedulePremiere()
+
+  var k = schedule.scheduleJob('* 23 * * *', ()=>{
+    schedulePremiere()
+  })
 
   //Connection
   io.on('connection', function(socket){
@@ -82,10 +117,21 @@ module.exports = function (http){
     //Connection
     socket.on('connected', function(packet){
       io.emit('countConnect', countConnect);
-      let initiatePacket = {
-        videoStore: videoStore
+      if(streamState === 'streaming'){
+        let initiatePacket = {
+          videoStore: videoStore
+        }
+        io.to(socket.id).emit('initiate',initiatePacket);
       }
-      io.to(socket.id).emit('initiate',initiatePacket);
+      else{
+        let premierePacket = {
+          videoStore: videoStore,
+          premiereStart: premiereStore.premiereStart,
+          option: 'initiatePremiere'
+        }
+        io.to(socket.id).emit('premiere',premierePacket);
+      }
+
     });
 
     socket.on('disconnect', function(packet){
