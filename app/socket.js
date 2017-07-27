@@ -66,7 +66,7 @@ module.exports = function (http){
   }
   schedulePremiere()
 
-  var k = schedule.scheduleJob('* 23 * * *', ()=>{
+  var k = schedule.scheduleJob('0 23 * * *', ()=>{
     schedulePremiere()
   })
 
