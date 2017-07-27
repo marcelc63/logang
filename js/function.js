@@ -1,6 +1,6 @@
 function currentTime(totalDuration){
 	let startTime = 1499703318
-	let currentTime = Math.round(new Date().getTime()/1000)	
+	let currentTime = Math.round(new Date().getTime()/1000)
 	let difference = currentTime - startTime
 	let ratio = difference/totalDuration
 	let ratioFloor = Math.floor(ratio)
@@ -10,13 +10,13 @@ function currentTime(totalDuration){
 }
 
 function YTDurationToSeconds(duration) {
-  var match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/)
+	var match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/)
 
-  var hours = (parseInt(match[1]) || 0);
-  var minutes = (parseInt(match[2]) || 0);
-  var seconds = (parseInt(match[3]) || 0);
+	var hours = (parseInt(match[1]) || 0);
+	var minutes = (parseInt(match[2]) || 0);
+	var seconds = (parseInt(match[3]) || 0);
 
-  return hours * 3600 + minutes * 60 + seconds;
+	return hours * 3600 + minutes * 60 + seconds;
 }
 
 function exportJSON(data){
@@ -30,4 +30,15 @@ function exportJSON(data){
 
 	//Write it as the href for the link
 	var link = document.getElementById('link').href = dataUri;
+}
+
+function setRepetition(callback, delay, repetition){
+	let i = 0
+	let interval = setInterval(()=>{
+		i++
+		callback(i)
+		if(i === repetition){
+			clearInterval(interval)
+		}
+	}, delay)
 }

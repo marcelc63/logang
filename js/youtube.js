@@ -107,6 +107,7 @@ function syncVideo(data,option=undefined){
 	if(option === 'premiere' || option === 'initiatePremiere'){
 		temporaryStore.video = storeData.videoStore[storeData.videoStore.length-1]
 		temporaryStore.currentDuration = (Date.now()/1000)-premiereStore.premiereStart
+		temporaryStore.currentDuration = storeData.videoStore.length
 	}
 
 	startYouTube(temporaryStore,option)
@@ -168,6 +169,8 @@ store.currentVideoIndex = 0
 */
 if(premiereStore.premiereState === 'online'){
 	premiereStore.premiereState = 'offline'
+	$('.js-premiere-offline').removeClass('hide')
+	$('.js-premiere-online').addClass('hide')
 }
 syncVideo(store)
 }

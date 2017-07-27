@@ -24,13 +24,13 @@ $(function () {
 	//Emoji
 	const emojiInitiate = () => {
 		$(()=>{ $('.js-emoji.emoji--click').click(
-				(e)=>{
-					let em = $(e.target).data("emoji");
-					let m = $('.js-m').val()
-					m = m+' :'+em+' '
-					$('.js-m').val(m)
-					$('.js-m').focus();
-				}
+			(e)=>{
+				let em = $(e.target).data("emoji");
+				let m = $('.js-m').val()
+				m = m+' :'+em+' '
+				$('.js-m').val(m)
+				$('.js-m').focus();
+			}
 		)})
 	}
 
@@ -44,7 +44,7 @@ $(function () {
 				img.addClass('emoji--click').attr('title',reason)
 			}
 			$('.js-emoji-store').append(img)
-	  })
+		})
 		emojiInitiate();
 	}
 
@@ -93,8 +93,23 @@ $(function () {
 
 	socket.on('premiere', function(packet){
 		premiereVideo(packet.premiereStart)
-		console.log(packet.videoStore)
 		syncVideo(packet.videoStore,packet.option)
+		setRepetition((i)=>{
+			let li = $('<li>')
+			let ntf = 'l--notification'
+			let sec = 4-i
+			let msg = ''
+			if(sec !== 0){
+				msg = '<span>Premiere in '+sec+'</span>'
+			}
+			else{
+				msg = '<span>Premiere Now!</span>'
+			}
+			li.addClass(ntf).html(msg)
+			$('.js-messages').append(li)
+		},1000,4)
+		$('.js-premiere-offline').addClass('hide')
+		$('.js-premiere-online').removeClass('hide')
 	})
 
 	socket.on('authenticate', function(packet){
@@ -102,7 +117,6 @@ $(function () {
 		store.isLoggedIn = packet.isLoggedIn
 		store.emoji = packet.emoji
 		store.user.username = packet.username
-		console.log(packet.emojiStore)
 		emoji(store.emoji,packet.emojiStore)
 		accountState()
 		$('.js-m').focus();
@@ -192,4 +206,4 @@ $(function () {
 
 	accountState()
 
-	});
+});
