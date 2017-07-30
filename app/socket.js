@@ -116,7 +116,7 @@ module.exports = function (http){
 
     //Connection
     socket.on('connected', function(packet){
-      console.log(socket.id)
+      console.log(videoStore)
       console.log(store.username+' initiated')
       if(streamState === 'streaming'){
         let initiatePacket = {
