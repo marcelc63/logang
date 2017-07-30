@@ -14,6 +14,7 @@ let premiereStore = {
 	premiereState: 'offline'
 }
 let player
+let option
 
 function onYouTubeIframeAPIReady() {
 	player = new YT.Player('player', {

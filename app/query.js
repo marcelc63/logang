@@ -51,9 +51,9 @@ const emojiConstruct = (payload,option=undefined) => {
 const emoji = (payload,callback,option=undefined) => {
   if(option === undefined){
     mysqlQuery({
-      sql: 'INSERT INTO `emoji` (emoji,identifier)VALUE(?)',
+      sql: 'INSERT INTO `emoji` (emoji,identifier)VALUE(?,?)',
       timeout: 40000, // 40s
-      values: [payload.identifier]
+      values: [payload.emoji,payload.identifier]
     }, (x)=>{
       if(x.affectedRows === 1){
         let data = {
@@ -104,7 +104,63 @@ const emoji = (payload,callback,option=undefined) => {
       callbackCheck(callback,data)
     })
   }
+}
 
+const stats = (payload,callback,option=undefined) => {
+  if(option === 'register'){
+    mysqlQuery({
+      sql: 'INSERT INTO `stats` (identifier,message)VALUE(?,?)',
+      timeout: 40000, // 40s
+      values: [payload.identifier,0]
+    }, (x)=>{
+      if(x.affectedRows === 1){
+        console.log(payload.username+' registered')
+        let data = {
+          meta: {
+            code: 200,
+          }
+        }
+        callbackCheck(callback,data)
+      }
+    })
+  }
+
+  if(option === undefined){
+    mysqlQuery({
+      sql: 'UPDATE `stats` SET `chat` = `chat` + 1 WHERE `identifier` = ?',
+      timeout: 40000, // 40s
+      values: [payload.identifier]
+    }, (x)=>{
+      if(x.affectedRows === 1){
+        let data = {
+          meta: {
+            code: 200,
+          }
+        }
+        callbackCheck(callback,data)
+      }
+    })
+  }
+
+  if(option === 'check'){
+    mysqlQuery({
+      sql: 'SELECT * FROM `stats` WHERE `identifier` = ?',
+      timeout: 40000, // 40s
+      values: [payload.identifier]
+    }, (x)=>{
+      if(x.length === 1){
+        let data = {
+          meta: {
+            code: 200,
+          },
+          data: {
+            chat: x[0].chat
+          }
+        }
+        callbackCheck(callback,data)
+      }
+    })
+  }
 }
 
 const register = (payload,callback) => {
@@ -125,19 +181,18 @@ const register = (payload,callback) => {
         values: [payload.username,payload.password,payload.identifier,datestring,timestring]
       }, (x)=>{
         if(x.affectedRows === 1){
-          console.log(payload.username+' registered')
-          let data = {
-            meta: {
-              code: 200,
-            }
-          }
-          callbackCheck(callback,data)
+          stats(payload,callback,'register')
         }
       })
     }
     else{
       console.log('user exists')
-      callbackCheck(callback,400)
+      let data = {
+        meta: {
+          code: 400,
+        }
+      }
+      callbackCheck(callback,data)
     }
   })
 }
@@ -205,5 +260,6 @@ module.exports = {
   login: login,
   authenticate: authenticate,
   register: register,
-  emoji: emoji
+  emoji: emoji,
+  stats: stats
 }

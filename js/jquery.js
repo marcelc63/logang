@@ -18,7 +18,6 @@ setInterval(()=>{
 	let hours = laTime.getHours()
 	let minutes = laTime.getMinutes()
 	let mid = 'AM'
-	console.log(hours)
 	if (minutes < 10)
 	{
 		minutes = ('0'+minutes.toString())

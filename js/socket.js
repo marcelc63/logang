@@ -35,6 +35,7 @@ $(function () {
 	}
 
 	const emoji = (emoji,emojiStore) => {
+		$('.js-emoji-store').empty()
 		emojiStore.forEach((x) => {
 			let val = x.val
 			let reason = x.reason

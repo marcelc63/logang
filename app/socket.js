@@ -150,6 +150,25 @@ module.exports = function (http){
         payload.msg = parser.sanitize(payload.msg)
         payload.msg = parser.emoji(payload.msg,store.emoji)
         io.emit('chat', payload)
+
+        query.stats({identifier: store.identifier},(x)=>{
+          console.log('hi')
+          query.stats({identifier: store.identifier},(x)=>{
+            console.log(x.data.chat)
+            if(x.data.chat === 10 && x.meta.code === 200){
+              query.emoji({emoji:4,identifier:store.identifier}, (x)=>{
+                store.emoji.push('thasssmuhboiii')
+                let payload = {
+                  msg: '<div><p>Congratulations! You\'ve unlocked :thasssmuhboiii from sending 10 messages!</p></div>',
+                  ntf: 'l--register',
+                  purpose: 'msg'
+                }
+                payload.msg = parser.emoji(payload.msg,store.emoji)
+                io.to(socket.id).emit('chat', payload);
+              })
+            }
+          },'check')
+        })
       }
       else{
         let payload = {
