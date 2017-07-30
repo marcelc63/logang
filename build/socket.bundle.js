@@ -97,6 +97,7 @@ $(function () {
 	});
 
 	socket.on('initiate', function (packet) {
+		console.log(packet.videoStore);
 		syncVideo(packet.videoStore, 'initiate');
 	});
 
