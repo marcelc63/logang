@@ -85,11 +85,12 @@ $(function () {
 		if(token !== 'undefined'){
 			socket.emit('authenticate', token);
 		}
+		console.log('connected')
 		socket.emit('connected');
 	});
 
 	socket.on('initiate', function(packet){
-		console.log(packet.videoStore)
+		console.log('initiated')		
 		syncVideo(packet.videoStore,'initiate')
 	})
 

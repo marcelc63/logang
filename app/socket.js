@@ -116,7 +116,6 @@ module.exports = function (http){
 
     //Connection
     socket.on('connected', function(packet){
-      io.emit('countConnect', countConnect);
       if(streamState === 'streaming'){
         let initiatePacket = {
           videoStore: videoStore
@@ -131,7 +130,7 @@ module.exports = function (http){
         }
         io.to(socket.id).emit('premiere',premierePacket);
       }
-
+      io.emit('countConnect', countConnect)
     });
 
     socket.on('disconnect', function(packet){
