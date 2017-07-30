@@ -2,9 +2,9 @@ const bcrypt   = require('bcrypt-nodejs');
 const mysql = require('mysql');
 const connection = mysql.createPool({
   connectionLimit : 100,
-  host: 'localhost',
-  user: 'root',
-  password: '',
+  host: 'logang.ckheswsqzkrq.ap-southeast-1.rds.amazonaws.com',
+  user: 'logang',
+  password: 'Marcel6363',
   database: 'logang'
 });
 
@@ -109,7 +109,7 @@ const emoji = (payload,callback,option=undefined) => {
 const stats = (payload,callback,option=undefined) => {
   if(option === 'register'){
     mysqlQuery({
-      sql: 'INSERT INTO `stats` (identifier,message)VALUE(?,?)',
+      sql: 'INSERT INTO `stats` (identifier,chat)VALUE(?,?)',
       timeout: 40000, // 40s
       values: [payload.identifier,0]
     }, (x)=>{
