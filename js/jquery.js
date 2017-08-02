@@ -10,7 +10,7 @@ $("body").tooltip({
 })
 
 if ($(window).width() < 480 || $(window).height() < 480) {
-	$('.js-play-btn').removeClass('hide')
+	$('.js-play-btn').removeClass('hide')	
 }
 
 //LA Time
