@@ -19,7 +19,7 @@ let option
 function onYouTubeIframeAPIReady() {
 	player = new YT.Player('player', {
 		playerVars: {
-			'autoplay': 2,
+			'autoplay': 1,
 			'controls': 0,
 			'rel' : 0,
 			'modestbranding': 1,
