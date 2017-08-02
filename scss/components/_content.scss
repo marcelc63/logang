@@ -4,6 +4,11 @@
   position: relative;
   height: 100vh;
   background: $black;
+
+  @include tablet {
+    height: 50vh;
+    width: 100%;
+  }
 }
 
 .content--play-btn{
@@ -16,6 +21,10 @@
   width: 100%;
   height: 100%;
   text-align: center;
+
+  @include tablet {
+    top: 35%;
+  }
 }
 .content--play-btn i{
   cursor: pointer;
@@ -30,6 +39,7 @@
   top: 50%;
   transform: translateY(-50%);
   z-index:1;
+
 }
 
 .content--player{

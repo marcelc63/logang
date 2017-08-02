@@ -4,6 +4,11 @@
   display: flex;
   flex-flow: column;
   height:100vh;
+
+  @include tablet {
+    height: 50vh;
+    width: 100%;
+  }
 }
 
 .chat--messages{

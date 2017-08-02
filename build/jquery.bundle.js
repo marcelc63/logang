@@ -16,6 +16,10 @@ $("body").tooltip({
 	selector: '[data-toggle="tooltip"]'
 });
 
+if ($(window).width() < 480 || $(window).height() < 480) {
+	$('.js-play-btn').removeClass('hide');
+}
+
 //LA Time
 setInterval(function () {
 	var utcTime = new Date();
