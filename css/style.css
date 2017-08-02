@@ -225,6 +225,10 @@ td {
   -moz-box-sizing: border-box;
   margin-right: -1px; }
 
+@media (max-width: 1023px) {
+  input {
+    font-size: 16px; } }
+
 .header {
   background: url(../images/header-home.jpg);
   background-repeat: no-repeat;
