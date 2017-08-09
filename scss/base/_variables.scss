@@ -21,6 +21,10 @@ $red: #d91d1d;
 $light-gray: #cecece;
 $light-black: #777;
 
+.bold{
+  font-weight: bold;
+}
+
 //Mixins
 @mixin placeholder-color($color){
   &::-webkit-input-placeholder {

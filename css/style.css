@@ -1,3 +1,6 @@
+.bold {
+  font-weight: bold; }
+
 .p-0 {
   padding: 0px; }
 
@@ -257,6 +260,16 @@ td {
     .content {
       height: 50vh;
       width: 100%; } }
+
+.content--modal {
+  text-align: center; }
+  .content--modal h2 {
+    margin-bottom: 5px; }
+  .content--modal p {
+    font-size: 14px; }
+
+.tingle-btn {
+  width: 100%; }
 
 .content--play-btn {
   position: absolute;
