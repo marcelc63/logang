@@ -157,6 +157,7 @@ module.exports = function (http){
           console.log('hi')
           query.stats({identifier: store.identifier},(x)=>{
             console.log(x.data.chat)
+            
             if(x.data.chat === 10 && x.meta.code === 200){
               query.emoji({emoji:4,identifier:store.identifier}, (x)=>{
                 store.emoji.push('thasssmuhboiii')
@@ -169,6 +170,20 @@ module.exports = function (http){
                 io.to(socket.id).emit('chat', payload);
               })
             }
+
+            if(x.data.chat === 50 && x.meta.code === 200){
+              query.emoji({emoji:5,identifier:store.identifier}, (x)=>{
+                store.emoji.push('kong')
+                let payload = {
+                  msg: '<div><p>Congratulations! You\'ve unlocked :kong from sending 50 messages!</p></div>',
+                  ntf: 'l--register',
+                  purpose: 'msg'
+                }
+                payload.msg = parser.emoji(payload.msg,store.emoji)
+                io.to(socket.id).emit('chat', payload);
+              })
+            }
+
           },'check')
         })
       }
