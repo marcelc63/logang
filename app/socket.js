@@ -157,7 +157,7 @@ module.exports = function (http){
           console.log('hi')
           query.stats({identifier: store.identifier},(x)=>{
             console.log(x.data.chat)
-            
+
             if(x.data.chat === 10 && x.meta.code === 200){
               query.emoji({emoji:4,identifier:store.identifier}, (x)=>{
                 store.emoji.push('thasssmuhboiii')
@@ -167,6 +167,10 @@ module.exports = function (http){
                   purpose: 'msg'
                 }
                 payload.msg = parser.emoji(payload.msg,store.emoji)
+                io.to(socket.id).emit('emoji', {
+                  emoji:store.emoji,
+                  emojiStore: emojiStore
+                })
                 io.to(socket.id).emit('chat', payload);
               })
             }
@@ -180,6 +184,10 @@ module.exports = function (http){
                   purpose: 'msg'
                 }
                 payload.msg = parser.emoji(payload.msg,store.emoji)
+                io.to(socket.id).emit('emoji', {
+                  emoji:store.emoji,
+                  emojiStore: emojiStore
+                })
                 io.to(socket.id).emit('chat', payload);
               })
             }

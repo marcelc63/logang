@@ -21,7 +21,7 @@ var option = void 0;
 function onYouTubeIframeAPIReady() {
 	player = new YT.Player('player', {
 		playerVars: {
-			'autoplay': 2,
+			'autoplay': 1,
 			'controls': 0,
 			'rel': 0,
 			'modestbranding': 1,
@@ -65,10 +65,12 @@ function loadVideo(packet) {
 	var date = new Date(packet.videoPublishedAt);
 	var videoPublishedAt = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
-	player.loadVideoById({ 'videoId': videoId,
+	player.loadVideoById({
+		'videoId': videoId,
 		'startSeconds': startSeconds,
 		//'endSeconds': startSeconds+5,
-		'suggestedQuality': 'large' });
+		'suggestedQuality': 'large'
+	});
 
 	$('.js-video-title').text(videoTitle);
 	$('.js-video-current').text(currentVideoIndex);
@@ -152,23 +154,6 @@ function startYouTube(packet) {
 
 function onPlayerStateChange(event) {
 	if (event.data === 0) {
-		/*
-  let payload = {
-  videoId: store.videoStore[store.currentVideoIndex].videoId,
-  videoPublishedAt: store.videoStore[store.currentVideoIndex].videoPublishedAt,
-  startSeconds: 0,
-  videoTitle: store.videoStore[store.currentVideoIndex].videoTitle,
-  currentVideoIndex: store.currentVideoIndex+1,
-  totalVideo: store.videoStore.length
-  }
-  //loadVideo(payload)
-  if(store.currentVideoIndex+1 != store.videoStore.length){
-  store.currentVideoIndex++
-  }
-  else{
-  store.currentVideoIndex = 0
-  }
-  */
 		if (premiereStore.premiereState === 'online') {
 			premiereStore.premiereState = 'offline';
 			$('.js-premiere-offline').removeClass('hide');

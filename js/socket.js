@@ -90,7 +90,7 @@ $(function () {
 	});
 
 	socket.on('initiate', function(packet){
-		console.log('initiated')		
+		console.log('initiated')
 		syncVideo(packet.videoStore,'initiate')
 	})
 
@@ -123,6 +123,11 @@ $(function () {
 		emoji(store.emoji,packet.emojiStore)
 		accountState()
 		$('.js-m').focus();
+	});
+
+	socket.on('emoji', function(packet){
+		store.emoji = packet.emoji
+		emoji(store.emoji,packet.emojiStore)
 	});
 
 	socket.on('refreshState', function(packet){

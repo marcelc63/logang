@@ -132,6 +132,11 @@ $(function () {
 		$('.js-m').focus();
 	});
 
+	socket.on('emoji', function (packet) {
+		store.emoji = packet.emoji;
+		emoji(store.emoji, packet.emojiStore);
+	});
+
 	socket.on('refreshState', function (packet) {
 		setCookie('token', packet.token);
 		store.isLoggedIn = packet.isLoggedIn;
